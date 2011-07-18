@@ -11,6 +11,7 @@
 ###############################################################################
 
 VERSION=0.2
+TITLE="\033[43m\033[30m MicroJournal \033[42m v$VERSION \033[0m"
 BASEDIR="$HOME/.microj"
 FULL=off
 
@@ -99,7 +100,7 @@ fi
 while :
 do
     clear
-    echo MicroJournal v$VERSION
+    echo -e $TITLE
     echo "---------------------------------------------------------------"
     echo -ne "\033[32m$JOURNALDATE\033[0m ... "
     show_journal
