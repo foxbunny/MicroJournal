@@ -12,6 +12,7 @@
 
 VERSION=0.1
 BASEDIR="$HOME/.microj"
+FULL=off
 
 # Add new entry to current journal file
 function add_entry {
@@ -35,10 +36,33 @@ function switch_journalfile {
 # Show menu
 function show_menu {
     echo "[r] Read today's journal entries"
+    echo "[f] Toggle full mode (currently $FULL)"
     echo "[y] Read yesterday's journal entries"
     echo "[d] Read entries for a specific date"
     echo "[n] New journal entry"
     echo "[q] Quit"
+}
+
+# Show journal entry: pass a string of any length to show full version
+function show_journal {
+    if [ -f $JOURNALFILE ]
+    then
+        echo -e "\033[32mfound\033[0m"
+        echo "---------------------------------------------------------------"
+        if [ $FULL == on ]
+        then
+            cat $JOURNALFILE \
+                | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
+                | sh
+        else
+            cat $JOURNALFILE \
+                | tail \
+                | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
+                | sh
+        fi
+        echo "---------------------------------------------------------------"
+        echo
+    fi
 }
 
 # Set default journaldir and journalfile
@@ -62,16 +86,7 @@ do
         echo "---------------------------------------------------------------"
         echo
     fi
-    if [ -f $JOURNALFILE ]
-    then
-        echo -e "\033[32mfound\033[0m"
-        echo "---------------------------------------------------------------"
-        cat $JOURNALFILE \
-            | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
-            | sh
-        echo "---------------------------------------------------------------"
-        echo
-    fi
+    show_journal
     show_menu
     echo
     echo -n "What would you like to do? "
@@ -80,6 +95,14 @@ do
     case "$menu_option" in
         r)
             switch_journalfile today
+            ;;
+        f) 
+            if [ $FULL == on ]
+            then
+                FULL=off
+            else
+                FULL=on
+            fi
             ;;
         y)
             switch_journalfile yesterday
