@@ -33,14 +33,14 @@ should be self-explanatory.
 
 ### v0.2
 
-Added search functionality
-Added full/short view with toggle option
-Changed data file extension to .microj (rename your files)
-Removed "Bye!" message when quitting
+* Added search functionality
+* Added full/short view with toggle option
+* Changed data file extension to .microj (rename your files)
+* Removed "Bye!" message when quitting
 
 ### v0.1
 
-First working implementation
+* First working implementation
 
 ## License
 
