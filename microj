@@ -168,8 +168,6 @@ do
             ;;
         q)
             clear
-            echo "Bye!"
-            echo
             exit 0
             ;;
         *)
