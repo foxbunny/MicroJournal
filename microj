@@ -171,7 +171,7 @@ do
             exit 0
             ;;
         *)
-            echo -n "Invalid option. Press any key to go back to menu..."
+            echo -n "Invalid option '$menu_option'. Press any key to go back to menu..."
             read -n 1
             ;;
     esac
