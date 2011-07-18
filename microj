@@ -39,29 +39,49 @@ function show_menu {
     echo "[f] Toggle full mode (currently $FULL)"
     echo "[y] Read yesterday's journal entries"
     echo "[d] Read entries for a specific date"
+    echo "[g] Search current date by keywords (grep)"
+    echo "[G] Search all dates by keywords (grep all)"
     echo "[n] New journal entry"
     echo "[q] Quit"
 }
 
 # Show journal entry: pass a string of any length to show full version
 function show_journal {
-    if [ -f $JOURNALFILE ]
+    if [ -z "$1" ]
     then
-        echo -e "\033[32mfound\033[0m"
-        echo "---------------------------------------------------------------"
-        if [ $FULL == on ]
+        if [ -f $JOURNALFILE ]
         then
-            cat $JOURNALFILE \
-                | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
-                | sh
+            echo -e "\033[32mfound\033[0m"
+            echo "---------------------------------------------------------------"
+            if [ $FULL == on ]
+            then
+                cat $JOURNALFILE \
+                    | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
+                    | sh
+            else
+                cat $JOURNALFILE \
+                    | tail \
+                    | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
+                    | sh
+            fi
+            echo "---------------------------------------------------------------"
+            echo
         else
-            cat $JOURNALFILE \
-                | tail \
+            echo -e "\033[31mnot found\033[0m"
+            echo "---------------------------------------------------------------"
+            echo
+        fi
+    else
+        echo "---------------------------------------------------------------"
+        if [ -z "$2" ]
+        then
+            echo No results found.
+        else
+            echo "$2" \
                 | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
                 | sh
         fi
         echo "---------------------------------------------------------------"
-        echo
     fi
 }
 
@@ -80,12 +100,6 @@ while :
 do
     clear
     echo -ne "\033[32m$JOURNALDATE\033[0m ... "
-    if [ ! -f $JOURNALFILE ]
-    then
-        echo -e "\033[31mnot found\033[0m"
-        echo "---------------------------------------------------------------"
-        echo
-    fi
     show_journal
     show_menu
     echo
@@ -113,6 +127,39 @@ do
             read -r date_option
             switch_journalfile "$date_option"
             ;;
+        g)
+            echo
+            echo -n "Search for: "
+            read -r search_keywords
+            clear
+            echo -e "Searching today's entries for \033[32m$search_keywords\033[0m:"
+            show_journal search "`grep -i "$search_keywords" $JOURNALFILE`"
+            echo
+            echo -n "Press any key to return to menu..."
+            read -n 1
+            ;;
+        G)
+            echo
+            echo -n "Search for: "
+            read -r search_keywords
+            clear
+            journal_files=`find $BASEDIR -name *.microj -type f`
+            echo -e "Searching all dates for \033[32m$search_keywords\033[0m:"
+            for search_file in $journal_files
+            do
+                search_result=`cat "$search_file" | grep -i "$search_keywords"`
+                if [ ! -z "$search_result" ] 
+                then
+                    echo
+                    echo -e "In \033[031m$search_file\033[0m"
+                    show_journal search "$search_result"
+                fi
+            done
+            echo
+            echo -n "Press any key to return to menu..."
+            read -n 1
+            ;;
+
         n)
             echo
             echo -n "Type in your entry: "
