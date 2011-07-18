@@ -1,0 +1,42 @@
+# MicroJournal
+
+Bash script for personal desktop microjournaling.
+
+## About microjournaling
+
+Microjournal is a one-liner journal. It's similar to microblogging but meant to
+be used privately on your computer.
+
+## About MicroJournal
+
+MicroJournal is a simple script that allows you daily microjournaling. It is 
+still in early stages, and it doesn't have a large featureset, but it gets the
+job done. It is self-contained and will run on any platform which has Bash
+shell, and the Linux-compatible date utility.
+
+## How to use
+
+Copy microj script to any directory you want, and put its path in PATH. Make
+sure it is executable.
+
+To add a new entry, simply type:
+
+    microj "Your entry"
+
+If your entry contains spaces, make sure it is quoted.
+
+To use microj interactively, start it by typing ``microj`` with no arguments,
+and it will list today's entries, and display a menu below. The menu itself
+should be self-explanatory.
+
+## Changelog
+
+### v0.1
+
+First working implementation
+
+## License
+
+This software is released under GNU GPL v3. You can see the full text of the
+license [on the GNU website](http://www.gnu.org/licenses/gpl-3.0.txt), or 
+in the LICENSE file.

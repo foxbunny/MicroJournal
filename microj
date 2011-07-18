@@ -1,0 +1,112 @@
+#!/bin/sh
+
+###############################################################################
+#
+#  MicroJournal v0.1
+#
+#  Personal microjournaling software
+#  (c)2011, by Branko Vukelic. All rights reserved.
+#
+###############################################################################
+
+VERSION=0.1
+BASEDIR="$HOME/.microj"
+
+# Add new entry to current journal file
+function add_entry {
+    echo
+    echo "`date +%H:%M` | $1" >> $JOURNALFILE
+}
+
+# Change the current journal dir and journal file
+function switch_journalfile {
+    JOURNALDATE=`date -d "$1" +"%A %F"`
+    JOURNALDIR="$BASEDIR/`date -d $1 +%Y`/`date -d $1 +%m`"
+    JOURNALFILE="$JOURNALDIR/`date -d $1 +%d`.js"
+ 
+    # Create the journal dir if it doesn't exist
+    if [ ! -d $JOURNALDIR ]
+    then
+        mkdir -p $JOURNALDIR
+    fi
+}
+
+# Show menu
+function show_menu {
+    echo "[r] Read today's journal entries"
+    echo "[y] Read yesterday's journal entries"
+    echo "[d] Read entries for a specific date"
+    echo "[n] New journal entry"
+    echo "[q] Quit"
+}
+
+# Set default journaldir and journalfile
+switch_journalfile today
+
+# If there's a command line argument, add it to journal and quit
+if [ ! -z "$1" ]
+then
+    add_entry "$1"
+    exit 0
+fi
+
+# Main loop
+while :
+do
+    clear
+    echo -ne "\033[32m$JOURNALDATE\033[0m ... "
+    if [ ! -f $JOURNALFILE ]
+    then
+        echo -e "\033[31mnot found\033[0m"
+        echo "---------------------------------------------------------------"
+        echo
+    fi
+    if [ -f $JOURNALFILE ]
+    then
+        echo -e "\033[32mfound\033[0m"
+        echo "---------------------------------------------------------------"
+        cat $JOURNALFILE \
+            | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
+            | sh
+        echo "---------------------------------------------------------------"
+        echo
+    fi
+    show_menu
+    echo
+    echo -n "What would you like to do? "
+    read -n 1 -s menu_option
+    echo
+    case "$menu_option" in
+        r)
+            switch_journalfile today
+            ;;
+        y)
+            switch_journalfile yesterday
+            ;;
+        d)
+            echo
+            echo -n "Which date? (e.g. '2011 Jul 11', '-2 days', 'next Firday') "
+            read -r date_option
+            switch_journalfile "$date_option"
+            ;;
+        n)
+            echo
+            echo -n "Type in your entry: "
+            read -r new_entry
+            add_entry "$new_entry"
+            ;;
+        q)
+            clear
+            echo "Bye!"
+            echo
+            exit 0
+            ;;
+        *)
+            echo -n "Invalid option. Press any key to go back to menu..."
+            read -n 1
+            ;;
+    esac
+done
+
+exit 0
+
