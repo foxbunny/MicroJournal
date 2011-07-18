@@ -2,7 +2,7 @@
 
 ###############################################################################
 #
-#  MicroJournal v0.1
+#  MicroJournal v0.2
 #
 #  Personal microjournaling software
 #  (c)2011, by Branko Vukelic. All rights reserved.
@@ -10,7 +10,7 @@
 #
 ###############################################################################
 
-VERSION=0.1
+VERSION=0.2
 BASEDIR="$HOME/.microj"
 FULL=off
 
@@ -99,6 +99,8 @@ fi
 while :
 do
     clear
+    echo MicroJournal v$VERSION
+    echo "---------------------------------------------------------------"
     echo -ne "\033[32m$JOURNALDATE\033[0m ... "
     show_journal
     show_menu
