@@ -76,7 +76,8 @@ function show_menu {
 
 # Process a single line of journal using sed
 function process_entry {
-    sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\'$YELLOW'\1\'$NORMAL'\2"/'
+    # FIXME: Try to do something about this mess of quotes
+    sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\'$YELLOW'\1\'$NORMAL'"'"'"'\2'"'"'"''"/'
 }
 
 # Show journal entry: pass a string of any length to show full version
