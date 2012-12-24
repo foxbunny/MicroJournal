@@ -15,18 +15,24 @@ TITLE="\033[43m\033[30m MicroJournal \033[42m v$VERSION \033[0m"
 BASEDIR="$HOME/.microj"
 FULL=off
 
+# Reset journal variables
+function set_journalvars {
+    JOURNALDATE=`date -d "$1" +"%A %F"`
+    JOURNALDIR="$BASEDIR/`date -d $1 +%Y`/`date -d $1 +%m`"
+    JOURNALFILE="$JOURNALDIR/`date -d $1 +%d`.microj"
+}
+
 # Add new entry to current journal file
 function add_entry {
+    set_journalvars today
     echo
     echo "`date +%H:%M` | $1" >> $JOURNALFILE
 }
 
 # Change the current journal dir and journal file
 function switch_journalfile {
-    JOURNALDATE=`date -d "$1" +"%A %F"`
-    JOURNALDIR="$BASEDIR/`date -d $1 +%Y`/`date -d $1 +%m`"
-    JOURNALFILE="$JOURNALDIR/`date -d $1 +%d`.microj"
- 
+    set_journalvars $1
+
     # Create the journal dir if it doesn't exist
     if [ ! -d $JOURNALDIR ]
     then
