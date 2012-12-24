@@ -10,8 +10,15 @@
 #
 ###############################################################################
 
+BACK_YELLOW='\e[43m'
+BACK_GREEN='\e[42m'
+FRONT_BLACK='\e[30m'
+RED='\e[31m'
+GREEN='\e[32m'
+YELLOW='\e[33m'
+NORMAL='\e[0m'
 VERSION=0.2
-TITLE="\033[43m\033[30m MicroJournal \033[42m v$VERSION \033[0m"
+TITLE="${BACK_YELLOW}$FRONT_BLACK MicroJournal $BACK_GREEN v$VERSION $NORMAL"
 BASEDIR="$HOME/.microj"
 FULL=off
 SEPARATOR="---------------------------------------------------------------"
@@ -21,6 +28,11 @@ function set_journalvars {
     JOURNALDATE=`date -d "$1" +"%A %F"`
     JOURNALDIR="$BASEDIR/`date -d $1 +%Y`/`date -d $1 +%m`"
     JOURNALFILE="$JOURNALDIR/`date -d $1 +%d`.microj"
+}
+
+# Wait for one character entry
+function anykey {
+    read -n 1
 }
 
 # Add new entry to current journal file
@@ -53,29 +65,29 @@ function show_menu {
     echo "[q] Quit"
 }
 
+# Process a single line of journal using sed
+function process_entry {
+    sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\'$YELLOW'\1\'$NORMAL'\2"/'
+}
+
 # Show journal entry: pass a string of any length to show full version
 function show_journal {
     if [ -z "$1" ]
     then
         if [ -f $JOURNALFILE ]
         then
-            echo -e "\033[32mfound\033[0m"
+            echo
             echo $SEPARATOR
             if [ $FULL == on ]
             then
-                cat $JOURNALFILE \
-                    | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
-                    | sh
+                cat $JOURNALFILE | process_entry | sh
             else
-                cat $JOURNALFILE \
-                    | tail \
-                    | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
-                    | sh
+                cat $JOURNALFILE | tail | process_entry | sh
             fi
             echo $SEPARATOR
             echo
         else
-            echo -e "\033[31mnot found\033[0m"
+            echo -e " ... ${RED}not found$NORMAL"
             echo $SEPARATOR
             echo
         fi
@@ -85,9 +97,7 @@ function show_journal {
         then
             echo No results found.
         else
-            echo "$2" \
-                | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
-                | sh
+            echo "$2" | process_entry | sh
         fi
         echo $SEPARATOR
     fi
@@ -109,7 +119,7 @@ do
     clear
     echo -e $TITLE
     echo $SEPARATOR
-    echo -ne "\033[32m$JOURNALDATE\033[0m ... "
+    echo -ne "${GREEN}${JOURNALDATE}$NORMAL"
     show_journal
     show_menu
     echo
@@ -142,11 +152,11 @@ do
             echo -n "Search for: "
             read -r search_keywords
             clear
-            echo -e "Searching today's entries for \033[32m$search_keywords\033[0m:"
+            echo -e "Searching today's entries for ${GREEN}${search_keywords}$NORMAL:"
             show_journal search "`grep -i "$search_keywords" $JOURNALFILE`"
             echo
             echo -n "Press any key to return to menu..."
-            read -n 1
+            anykey
             ;;
         G)
             echo
@@ -154,20 +164,20 @@ do
             read -r search_keywords
             clear
             journal_files=`find $BASEDIR -name *.microj -type f`
-            echo -e "Searching all dates for \033[32m$search_keywords\033[0m:"
+            echo -e "Searching all dates for ${GREEN}${search_keywords}$NORMAL:"
             for search_file in $journal_files
             do
                 search_result=`cat "$search_file" | grep -i "$search_keywords"`
                 if [ ! -z "$search_result" ] 
                 then
                     echo
-                    echo -e "In \033[031m$search_file\033[0m"
+                    echo -e "In ${YELLOW}${search_file}$NORMAL"
                     show_journal search "$search_result"
                 fi
             done
             echo
             echo -n "Press any key to return to menu..."
-            read -n 1
+            anykey
             ;;
 
         n)
@@ -182,7 +192,7 @@ do
             ;;
         *)
             echo -n "Invalid option '$menu_option'. Press any key to go back to menu..."
-            read -n 1
+            anykey 
             ;;
     esac
 done
