@@ -58,6 +58,10 @@ be sure to keep it that way or else things _will_ break.
 
 ## Changelog
 
+### development
+
+* No longer accept empty new entries in interactive mode
+
 ### v0.3
 
 * Fixed midnight bug where new entries in microj that was open before 
