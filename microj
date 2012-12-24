@@ -23,6 +23,15 @@ BASEDIR="$HOME/.microj"
 FULL=off
 SEPARATOR="---------------------------------------------------------------"
 
+# Save terminal
+tput smcup
+
+# Exit and restore terminal
+function quit {
+    tput rmcup
+    exit ${1:0}
+}
+
 # Reset journal variables
 function set_journalvars {
     JOURNALDATE=`date -d "$1" +"%A %F"`
@@ -188,7 +197,7 @@ do
             ;;
         q)
             clear
-            exit 0
+            quit 0
             ;;
         *)
             echo -n "Invalid option '$menu_option'. Press any key to go back to menu..."
@@ -197,5 +206,4 @@ do
     esac
 done
 
-exit 0
 
