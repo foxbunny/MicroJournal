@@ -14,6 +14,20 @@ still in early stages, and it doesn't have a large featureset, but it gets the
 job done. It is self-contained and will run on any platform which has Bash
 shell, and the Linux-compatible date utility.
 
+## Download
+
+Get MicroJournal directly from GitHub:
+
+    * [latest stable](https://raw.github.com/foxbunny/MicroJournal/8731117b28960dcc22ec54d0a417876a8e5cc115/microj)
+    * [development version](https://raw.github.com/foxbunny/MicroJournal/master/microj)
+
+For example:
+
+    curl https://raw.github.com/foxbunny/MicroJournal/master/microj > ~/usr/bin/microj
+    chmod +x ~/usr/bin/microj
+
+gets you the latest development version.
+
 ## How to use
 
 Copy microj script to any directory you want, and put its path in PATH. Make
