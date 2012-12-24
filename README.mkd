@@ -37,6 +37,7 @@ should be self-explanatory.
   midnight would be written to yesterday's journal instead of today's even
   if new entry is made after midnight
 * Restre terminal output after quitting from interactive mode
+* Fixed quoting issues
 * Some internal code cleanup
 
 ### v0.2
