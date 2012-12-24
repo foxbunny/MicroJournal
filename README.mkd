@@ -18,8 +18,8 @@ shell, and the Linux-compatible date utility.
 
 Get MicroJournal directly from GitHub:
 
-    * [latest stable](https://raw.github.com/foxbunny/MicroJournal/8731117b28960dcc22ec54d0a417876a8e5cc115/microj)
-    * [development version](https://raw.github.com/foxbunny/MicroJournal/master/microj)
+ * [latest stable](https://raw.github.com/foxbunny/MicroJournal/8731117b28960dcc22ec54d0a417876a8e5cc115/microj)
+ * [development version](https://raw.github.com/foxbunny/MicroJournal/master/microj)
 
 For example:
 
