@@ -47,7 +47,7 @@ function anykey {
 
 # Add new entry to current journal file
 function add_entry {
-    if [ ! -z "$1"]
+    if [ "$1" ]
     then
       set_journalvars today
       echo
