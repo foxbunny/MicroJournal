@@ -31,6 +31,12 @@ should be self-explanatory.
 
 ## Changelog
 
+### master
+
+* Fixed midnight bug where new entries in microj that was open before 
+  midnight would be written to yesterday's journal instead of today's even
+  if new entry is made after midnight
+
 ### v0.2
 
 * Added search functionality
