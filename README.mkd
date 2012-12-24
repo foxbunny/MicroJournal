@@ -36,7 +36,7 @@ should be self-explanatory.
 * Fixed midnight bug where new entries in microj that was open before 
   midnight would be written to yesterday's journal instead of today's even
   if new entry is made after midnight
-* Restre terminal output after quitting from interactive mode
+* Restore terminal output after quitting from interactive mode
 * Fixed quoting issues
 * Some internal code cleanup
 
