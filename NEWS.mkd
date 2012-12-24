@@ -1,0 +1,23 @@
+# development
+
+* No longer accept empty new entries in interactive mode
+
+# v0.3
+
+* Fixed midnight bug where new entries in microj that was open before 
+  midnight would be written to yesterday's journal instead of today's even
+  if new entry is made after midnight
+* Restore terminal output after quitting from interactive mode
+* Fixed quoting issues
+* Some internal code cleanup
+
+# v0.2
+
+* Added search functionality
+* Added full/short view with toggle option
+* Changed data file extension to .microj (rename your files)
+* Removed "Bye!" message when quitting
+
+# v0.1
+
+* First working implementation
