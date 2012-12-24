@@ -47,9 +47,12 @@ function anykey {
 
 # Add new entry to current journal file
 function add_entry {
-    set_journalvars today
-    echo
-    echo "`date +%H:%M` | $1" >> $JOURNALFILE
+    if [ ! -z "$1"]
+    then
+      set_journalvars today
+      echo
+      echo "`date +%H:%M` | $1" >> $JOURNALFILE
+    fi
 }
 
 # Change the current journal dir and journal file
