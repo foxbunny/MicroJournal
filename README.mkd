@@ -31,7 +31,7 @@ should be self-explanatory.
 
 ## Changelog
 
-### master
+### v0.3
 
 * Fixed midnight bug where new entries in microj that was open before 
   midnight would be written to yesterday's journal instead of today's even

@@ -2,7 +2,7 @@
 
 ###############################################################################
 #
-#  MicroJournal v0.2
+#  MicroJournal
 #
 #  Personal microjournaling software
 #  (c)2011-2012, by Branko Vukelic. All rights reserved.
@@ -17,7 +17,7 @@ RED='\e[31m'
 GREEN='\e[32m'
 YELLOW='\e[33m'
 NORMAL='\e[0m'
-VERSION=0.2
+VERSION=0.3
 TITLE="${BACK_YELLOW}$FRONT_BLACK MicroJournal $BACK_GREEN v$VERSION $NORMAL"
 BASEDIR="$HOME/.microj"
 FULL=off
