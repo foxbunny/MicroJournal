@@ -21,6 +21,7 @@ VERSION=0.2
 TITLE="${BACK_YELLOW}$FRONT_BLACK MicroJournal $BACK_GREEN v$VERSION $NORMAL"
 BASEDIR="$HOME/.microj"
 FULL=off
+AWK_SEP=' | '
 SEPARATOR="---------------------------------------------------------------"
 
 # Save terminal
@@ -74,10 +75,18 @@ function show_menu {
     echo "[q] Quit"
 }
 
+function awk_col {
+  awk -F $AWK_SEP '{print $'$1'};'
+}
+
 # Process a single line of journal using sed
 function process_entry {
-    # FIXME: Try to do something about this mess of quotes
-    sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\'$YELLOW'\1\'$NORMAL'"'"'"'\2'"'"'"''"/'
+    while read line; 
+    do
+      date=`echo $line | awk_col 1`
+      text=`echo $line | awk_col 2`
+      echo -e "${YELLOW}${date}${NORMAL} | $text"
+    done;
 }
 
 # Show journal entry: pass a string of any length to show full version
@@ -90,9 +99,9 @@ function show_journal {
             echo $SEPARATOR
             if [ $FULL == on ]
             then
-                cat $JOURNALFILE | process_entry | sh
+                cat $JOURNALFILE | process_entry
             else
-                cat $JOURNALFILE | tail | process_entry | sh
+                cat $JOURNALFILE | process_entry
             fi
             echo $SEPARATOR
             echo
@@ -107,7 +116,7 @@ function show_journal {
         then
             echo No results found.
         else
-            echo "$2" | process_entry | sh
+            echo $2 | process_entry
         fi
         echo $SEPARATOR
     fi
