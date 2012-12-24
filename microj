@@ -14,6 +14,7 @@ VERSION=0.2
 TITLE="\033[43m\033[30m MicroJournal \033[42m v$VERSION \033[0m"
 BASEDIR="$HOME/.microj"
 FULL=off
+SEPARATOR="---------------------------------------------------------------"
 
 # Reset journal variables
 function set_journalvars {
@@ -59,7 +60,7 @@ function show_journal {
         if [ -f $JOURNALFILE ]
         then
             echo -e "\033[32mfound\033[0m"
-            echo "---------------------------------------------------------------"
+            echo $SEPARATOR
             if [ $FULL == on ]
             then
                 cat $JOURNALFILE \
@@ -71,15 +72,15 @@ function show_journal {
                     | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
                     | sh
             fi
-            echo "---------------------------------------------------------------"
+            echo $SEPARATOR
             echo
         else
             echo -e "\033[31mnot found\033[0m"
-            echo "---------------------------------------------------------------"
+            echo $SEPARATOR
             echo
         fi
     else
-        echo "---------------------------------------------------------------"
+        echo $SEPARATOR
         if [ -z "$2" ]
         then
             echo No results found.
@@ -88,7 +89,7 @@ function show_journal {
                 | sed 's/\([0-2][0-9]:[0-5][0-9]\)\(.*\)/echo -e "\\033[33m\1\\033[0m\2"/' \
                 | sh
         fi
-        echo "---------------------------------------------------------------"
+        echo $SEPARATOR
     fi
 }
 
@@ -107,7 +108,7 @@ while :
 do
     clear
     echo -e $TITLE
-    echo "---------------------------------------------------------------"
+    echo $SEPARATOR
     echo -ne "\033[32m$JOURNALDATE\033[0m ... "
     show_journal
     show_menu
