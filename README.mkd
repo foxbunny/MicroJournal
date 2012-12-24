@@ -43,6 +43,19 @@ To use microj interactively, start it by typing ``microj`` with no arguments,
 and it will list today's entries, and display a menu below. The menu itself
 should be self-explanatory.
 
+## Journal storage
+
+Journal files are `.microj` files stored in your home directory. The main
+directory is located at `$HOME/.microj`. Inside that directory, there are two
+levels of subdirectories based on journal's date.
+
+For example, Dec 26, 2012 journal would point to a file located at
+`$HOME/.microj/2012/12/26.microj`. The files are plain-text, so you can edit
+them by hand if you want to correct something.
+
+Keep in mind that journal entries must be on one line. If you edit a file,
+be sure to keep it that way or else things _will_ break.
+
 ## Changelog
 
 ### v0.3
